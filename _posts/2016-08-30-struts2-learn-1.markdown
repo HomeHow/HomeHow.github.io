@@ -9,7 +9,7 @@ catalog: true
 tags:
     - struts2学习
 ---
-# 1 Struts2简述
+# 1 Struts2简述 #
 Struts2 是一个用来开发 MVC 应用程序的框架. 它提供了 Web 应用程序开发过程中的一些常见问题的解决方案:
 * 对来自用户的输入数据进行合法性验证  
 * 统一的布局  
@@ -30,12 +30,12 @@ Struts2 通过拦截器完成了框架的大部分工作。在 Struts2 中插入
 
 ---
 
-# 2 一个简单的Struts2应用
-## 2.1 需求
+# 2 一个简单的Struts2应用 #
+## 2.1 需求 ##
 ![photo1](/img/in-post/struts2-learn-1/1.png)
-## 2.2 目录组织
+## 2.2 目录组织 ##
 ![photo2](/img/in-post/struts2-learn-1/2.png)
-### 2.2.1 web.xml文件
+### 2.2.1 web.xml文件 ###
 主要完成对`StrutsPrepareAndExecuteFilter`的配置（在以前的版本中是对`FilterDispatcher`配置，新版本同样支持用`FilterDispatcher`配置），它的实质是一个过滤器，它负责初始化整个Struts框架并且处理所有的请求。这个过滤器可以包括一些初始化参数，有的参数指定了要加载哪些额外的xml配置文件，还有的会影响struts框架的行为。除了`StrutsPrepareAndExecuteFilter`外，Struts还提供了一个`ActionContexCleanUp`类，它的主要任务是当有其它一些过滤器要访问一个初始化好了的struts框架的时候，负责处理一些特殊的清除任务。  
 
 **web.xml:**
@@ -56,7 +56,7 @@ Struts2 通过拦截器完成了框架的大部分工作。在 Struts2 中插入
 </web-app>
 {% endhighlight %}
 
-### 2.2.2 新建action
+### 2.2.2 新建action ###
 应用程序可以完成的每一个操作，这里简单的新建一个*action*
 
 **Product.java:**
@@ -131,7 +131,7 @@ public class Product {
 {% endhighlight %}
 
 
-### 2.2.3 配置action与struts.xml文件
+### 2.2.3 配置action与struts.xml文件 ###
 
 框架的核心配置文件就是这个默认的*struts.xml*文件，在这个默认的配置文件里面我们可以根据需要再包括其它一些配置文件。在通常的应用开发中，我们可能想为每个不同的模块单独配置一个*struts.xml*文件，这样也利于管理和维护。这也是我们要配置的主要文件  
 
@@ -155,7 +155,7 @@ public class Product {
 </struts>
 {% endhighlight %}
 
-### 2.2.4 其他文件
+### 2.2.4 其他文件 ###
 
 **index.jsp:**
 

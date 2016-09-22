@@ -31,10 +31,13 @@ Struts2 通过拦截器完成了框架的大部分工作。在 Struts2 中插入
 ---
 
 # 2 一个简单的Struts2应用 #
+
 ## 2.1 需求 ##
 ![photo1](/img/in-post/struts2-learn-1/1.png)
+
 ## 2.2 目录组织 ##
 ![photo2](/img/in-post/struts2-learn-1/2.png)
+
 ### 2.2.1 web.xml文件 ###
 主要完成对`StrutsPrepareAndExecuteFilter`的配置（在以前的版本中是对`FilterDispatcher`配置，新版本同样支持用`FilterDispatcher`配置），它的实质是一个过滤器，它负责初始化整个Struts框架并且处理所有的请求。这个过滤器可以包括一些初始化参数，有的参数指定了要加载哪些额外的xml配置文件，还有的会影响struts框架的行为。除了`StrutsPrepareAndExecuteFilter`外，Struts还提供了一个`ActionContexCleanUp`类，它的主要任务是当有其它一些过滤器要访问一个初始化好了的struts框架的时候，负责处理一些特殊的清除任务。  
 

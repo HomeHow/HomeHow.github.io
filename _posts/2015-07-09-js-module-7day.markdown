@@ -6,6 +6,7 @@ iframe:     "https://huangxuan.me/js-module-7day/"
 date:       2015-07-09
 author:     "Hux"
 header-img: "img/post-bg-js-version.jpg"
+catalog: true
 tags:
     - 前端开发
     - JavaScript

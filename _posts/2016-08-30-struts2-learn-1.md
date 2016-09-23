@@ -41,7 +41,7 @@ Struts2 通过拦截器完成了框架的大部分工作。在 Struts2 中插入
 
 ## 2.2 目录组织 ##
 
-``
+```
 
 ├─src
 │  │  struts.xml
@@ -85,7 +85,7 @@ Struts2 通过拦截器完成了框架的大部分工作。在 Struts2 中插入
         └─pages
                 details.jsp
                 input.jsp
-``
+```
 
 ### 2.2.1 web.xml文件 ###
 

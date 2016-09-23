@@ -1,16 +1,17 @@
 ---
-layout:     post
-title:      "struts2学习笔记（一）"
-subtitle:   "Struts2-helloworld"
-date:       2016-08-30
-author:     "HomeHow"
-header-img: "img/post-bg-js-module.jpg"
+layout: post
+title: struts2学习笔记（一）
+subtitle: Struts2-helloworld
+date: 2016-08-30T00:00:00.000Z
+author: HomeHow
+header-img: img/post-bg-js-module.jpg
 catalog: true
 tags:
-    - struts2学习
+  - struts2学习
 ---
 # 1 Struts2简述 #
-Struts2 是一个用来开发 MVC 应用程序的框架. 它提供了 Web 应用程序开发过程中的一些常见问题的解决方案:
+Struts2 是一个用来开发 MVC 应用程序的框架. 它提供了 Web 应用程序开发过程中的一些常见问题的解决方案:  
+
 * 对来自用户的输入数据进行合法性验证  
 * 统一的布局  
 * 可扩展性  
@@ -18,15 +19,17 @@ Struts2 是一个用来开发 MVC 应用程序的框架. 它提供了 Web 应用
 * 支持 Ajax  
 * 表单的重复提交  
 * 文件的上传下载  
-* 等等 
+
+等等 
 
  
 Struts2 通过拦截器完成了框架的大部分工作。在 Struts2 中插入一个拦截器对象相当简便易行。  
+
 *  Struts2 使用了一个过滤器作为控制器  
-*  Struts2 中, HTML 表单将被直接映射到一个 POJO
-*  Struts2 中的验证逻辑编写在 Action 中
-*  Struts2 中任何一个 POJO 都可以是一个 Action 类
-*  Struts2 在页面里使用 OGNL 来显示各种对象模型, 可以不再使用 EL 和 JSTL 
+*  Struts2 中, HTML 表单将被直接映射到一个 POJO  
+*  Struts2 中的验证逻辑编写在 Action 中  
+*  Struts2 中任何一个 POJO 都可以是一个 Action 类  
+*  Struts2 在页面里使用 OGNL 来显示各种对象模型, 可以不再使用 EL 和 JSTL  
 
 ---
 

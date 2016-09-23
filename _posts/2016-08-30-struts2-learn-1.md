@@ -59,7 +59,8 @@ Struts2 通过拦截器完成了框架的大部分工作。在 Struts2 中插入
         │  web.xml
         │
         ├─classes
-        │  │  ...
+        │  │
+        │ ....
         │
         ├─lib
         │      asm-3.3.jar

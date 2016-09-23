@@ -41,7 +41,51 @@ Struts2 通过拦截器完成了框架的大部分工作。在 Struts2 中插入
 
 ## 2.2 目录组织 ##
 
-![photo2](/img/in-post/struts2-learn-1/2.png)
+``
+
+├─src
+│  │  struts.xml
+│  │
+│  └─com
+│      └─hhl
+│          └─struts2
+│              └─helloworld
+│                      Product.java
+│
+└─web
+    │  index.jsp
+    │
+    └─WEB-INF
+        │  web.xml
+        │
+        ├─classes
+        │  │  struts.xml
+        │  │
+        │  └─com
+        │      └─hhl
+        │          └─struts2
+        │              └─helloworld
+        │                      Product.class
+        │
+        ├─lib
+        │      asm-3.3.jar
+        │      asm-commons-3.3.jar
+        │      asm-tree-3.3.jar
+        │      commons-fileupload-1.3.jar
+        │      commons-io-2.0.1.jar
+        │      commons-lang3-3.1.jar
+        │      commons-logging-1.1.3.jar
+        │      freemarker-2.3.19.jar
+        │      javassist-3.11.0.GA.jar
+        │      log4j-1.2.17.jar
+        │      ognl-3.0.6.jar
+        │      struts2-core-2.3.15.3.jar
+        │      xwork-core-2.3.15.3.jar
+        │
+        └─pages
+                details.jsp
+                input.jsp
+``
 
 ### 2.2.1 web.xml文件 ###
 

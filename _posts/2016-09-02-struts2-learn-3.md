@@ -194,3 +194,51 @@ success.jsp文件
 </body>
 </html>
 {% endhighlight %}  
+
+### 2.2 ServletXxxtAware
+通过实现 ServletRequestAware, ServletContextAware 等接口的方式，例如可以先**得到request接口后，再根据 request的方法去得到session和application**  
+例如：
+{% highlight java %}
+public class TestServletAwareAction implements ServletRequestAware,ServletResponseAware,ServletContextAware{
+
+    @Override
+    public void setServletRequest(HttpServletRequest httpServletRequest) {
+        System.out.println(httpServletRequest);
+    }
+
+    @Override
+    public void setServletResponse(HttpServletResponse httpServletResponse) {
+        System.out.println(httpServletResponse);
+    }
+
+    @Override
+    public void setServletContext(ServletContext servletContext) {
+        System.out.println(servletContext);
+    }
+
+    public String execute(){
+        System.out.println("execute...");
+        return "success";
+    }
+}
+{% endhighlight %}
+配置struts2.xml文件
+{% highlight xml %}
+<action name="TestServletAware" class="com.hhl.struts2.action.TestServletAwareAction">
+    <result>/success.jsp</result>
+</action>
+{% endhighlight %}
+success.jsp文件  
+{% highlight html %}
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Insert title here</title>
+</head>
+<body>
+    <h4>Success Page</h4>
+</body>
+</html>
+{% endhighlight %}  

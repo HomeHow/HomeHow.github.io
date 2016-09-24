@@ -19,6 +19,7 @@ title: struts2学习笔记（三）
   `org.apache.struts2.interceptor.ApplicationAware`
   `org.apache.struts2.interceptor.RequestAware`
   `org.apache.struts2.interceptor.SessionAware`
+  `org.apache.struts2.interceptor.ParameterAware`
 2. 与 Servlet API 耦合的访问方式  
 - 通过`org.apache.struts2.ServletActionContext`  
 - 通过实现对应的`xxxAware`接口  
@@ -100,4 +101,50 @@ test-actionContext.jsp文件
     <br><br>
 </body>
 </html>
+{% endhighlight %}  
+
+### 1.2 实现XxxAware接口
+Action 类通过可以实现`RequestAware`,`SessionAware`,`ApplicationAware`等接口, 让 Struts2 框架在运行时向 Action 实例注入 `parameters`, `request`, `session` 和 `application` 对应的 Map 对象。  
+例如：
+{% highlight java %}
+public class TestAwareAction implements ApplicationAware{
+    public String execute(){
+
+        application.put("applicationKey2","applicationValue2");
+
+        System.out.println("date:" + application.get("date"));
+
+        return "success";
+    }
+
+    private Map<String, Object> application;
+
+    @Override
+    public void setApplication(Map<String, Object> application) {
+        this.application = application;
+    }
+}
 {% endhighlight %}
+配置struts2.xml文件
+{% highlight xml %}
+<action name="TestAware"  class="com.hhl.struts2.action.TestAwareAction">
+	<result name="success">/test-aware.jsp</result>
+</action>
+{% endhighlight %}
+test-aware.jsp文件  
+{% highlight jsp %}
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Insert title here</title>
+</head>
+<body>
+    <h4>Test ActionContext Page</h4>
+
+    application : ${applicationScope.applicationKey2 }
+    <br><br>
+</body>
+</html>
+{% endhighlight %}  

@@ -153,7 +153,7 @@ test-aware.jsp文件
 直接访问 Servlet API 将使 Action 与 Servlet 环境耦合在一起,  测试时需要有 Servlet 容器, 不便于对 Action 的单元测试。  
 
 ### 2.1 通过ServletActionContext
-**用ServletActionContext得到request再得到sesion和application**
+**用ServletActionContext得到request再得到sesion和application**  
 直接获取 HttpServletRequest 对象：  
 `ServletActionContext.getRequest()`  
 直接获取 HttpSession 对象：  

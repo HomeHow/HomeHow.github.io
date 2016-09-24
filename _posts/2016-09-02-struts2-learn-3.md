@@ -1,7 +1,7 @@
 ---
 author: HomeHow
 catalog: true
-date: 2016-09-02
+date: 2016-09-02T00:00:00.000Z
 header-img: img/post-bg-js-module.jpg
 layout: post
 subtitle: 访问web资源
@@ -70,4 +70,32 @@ public class TestActionContextAction {
         return "success";
     }
 }
+{% endhighlight %}
+配置struts2.xml文件
+{% highlight xml %}
+<action name="TestActionContext" class="com.hhl.struts2.action.TestActionContextAction">
+	<result name="success">/test-actionContext.jsp</result>
+</action>
+{% endhighlight %}
+{% highlight html %}
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Insert title here</title>
+</head>
+<body>
+    <h4>Test ActionContext Page</h4>
+
+    application : ${applicationScope.applicationKey }
+    <br><br>
+
+    session : ${sessionScope.sessionKey }
+    <br><br>
+
+    request : ${requestScope.requestKey }
+    <br><br>
+</body>
+</html>
 {% endhighlight %}

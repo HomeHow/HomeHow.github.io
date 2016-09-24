@@ -80,7 +80,7 @@ public class TestActionContextAction {
 </action>
 {% endhighlight %}
 test-actionContext.jsp文件  
-{% highlight jsp %}
+{% highlight html %}
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <html>
@@ -105,7 +105,7 @@ test-actionContext.jsp文件
 
 ### 1.2 实现XxxAware接口
 Action 类通过可以实现`RequestAware`,`SessionAware`,`ApplicationAware`等接口, 让 Struts2 框架在运行时向 Action 实例注入 `parameters`, `request`, `session` 和 `application` 对应的 Map 对象。  
-例如：
+以application为例：
 {% highlight java %}
 public class TestAwareAction implements ApplicationAware{
     public String execute(){
@@ -132,7 +132,7 @@ public class TestAwareAction implements ApplicationAware{
 </action>
 {% endhighlight %}
 test-aware.jsp文件  
-{% highlight jsp %}
+{% highlight html %}
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <html>
@@ -145,6 +145,52 @@ test-aware.jsp文件
 
     application : ${applicationScope.applicationKey2 }
     <br><br>
+</body>
+</html>
+{% endhighlight %}  
+
+## 2 与 Servlet 耦合的访问方式
+直接访问 Servlet API 将使 Action 与 Servlet 环境耦合在一起,  测试时需要有 Servlet 容器, 不便于对 Action 的单元测试。  
+
+### 2.1 通过ServletActionContext
+**用ServletActionContext得到request再得到sesion和application**
+直接获取 HttpServletRequest 对象：  
+`ServletActionContext.getRequest()`
+直接获取 HttpSession 对象：  
+`ServletActionContext.getRequest().getSession()`
+直接获取 ServletContext 对象：  
+`ServletActionContext.getServletContext()`  
+以application为例：
+{% highlight java %}
+public class TestServletActionContextAction {
+    public String execute(){
+        HttpServletRequest request = ServletActionContext.getRequest();
+        HttpSession session = ServletActionContext.getRequest().getSession();
+        ServletContext servletContext = ServletActionContext.getServletContext();
+
+        System.out.println("execute...");
+
+        return "success";
+    }
+}
+{% endhighlight %}
+配置struts2.xml文件
+{% highlight xml %}
+<action name="TestservletActionContextAction" class="com.hhl.struts2.action.TestServletActionContextAction">
+    <result>/success.jsp</result>
+</action>
+{% endhighlight %}
+success.jsp文件  
+{% highlight html %}
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Insert title here</title>
+</head>
+<body>
+    <h4>Success Page</h4>
 </body>
 </html>
 {% endhighlight %}  

@@ -89,6 +89,7 @@ public class HelloAction {
 *result*有两个属性，*name*与*type*：  
 **1) name:**标识一个*result*，和*action*配置的*method*方法的可能的一个返回值相对应，默认值为*success*  
 **2) type:**默认为**dispatcher**  
+在``struts2.xxxx-core.jar/struts-default.xml``中定义的类型:  
 
 | Type 类型值        | 作用说明           |
 | ------------- |:-------------:|
@@ -103,14 +104,148 @@ public class HelloAction {
 | velocity | 处理 Velocity 模板 |
 | xslt | 处理 XML/XLST 模板 |  
 
-参见：http://blog.sina.com.cn/s/blog_7ffb8dd501014uzw.html
+**1、dispatcher结果类型**  
+   Struts2在后台使用Servlet API 的``RequestDispatcher``来转发请求，因此在用户的整个请求/响应过程中，目标Servlet/JSP接收到的``request``/``response``对象，与最初的Servlet/JSP相同。  
+   Dispatcher结果类型的实现是``org.apache.struts2.dispatcher.ServletDispatcherResult``,该类的二个属性(property):``location``和``parse``，这两个属性可以通过struts.xml配置文件中的result元素的param子元素来设置。param元素的name属性指定结果类型实现类的属性名,param元素的内容是属性的值。例如:  
+{% highlight xml %}
+  <result name=“success”  type=“dispatcher”>
+    <param name=“location” >/success.jsp</param>
+     <param name=“parse” >true</param>
+  </result>
+{% endhighlight xml %}
+  **说明：**  
+  **A、**``location``参数用于指定action执行完毕后要转向的目标资源，``parse``属性决定了location是否可以通过使用OGNL来引用参数，默认为true。  
+location参数是默认的参数，在所有的Result实现类中，都定义了一个字符串类型的``DEFAULT_PARAM``静态常量，专门用于指定默认的参数名。 ``DEFAULT_PARAM``常量的定义：``public static final String DEFAULT_PARAM=“location”``;  
+  **B、**在设置location参数时，可以在参数值中使用OGNL表达式。  
+{% highlight xml %}
+<action name=“viewNews” class=“com.ibm.ViewNewsAction”
+<result name=“success”  type=“dispatcher”>
+    <param name=“location” >/viewNews.jsp?id=${id}</param>
+     <param name=“parse” >true</param>
+</result>
+</action>   
+{% endhighlight %}
+考虑到默认值的使用（``dispatcher``和``location``都是默认值），上述可以简化为：
+{% highlight xml %}
+<action name=“viewNews” class=“com.ibm.ViewNewsAction”>
+<result name=“success” >viewNews.jsp?id=${id}</result>
+</action>
+{% endhighlight %}
 
+**2、redirect结果类型（重定向到一个Url，也可以是Action或一个页面）**  
+   ``redirect``结果类型在后台使用``HttpServletResponse``的``sendRedirect``方法将请求重定向到指定的URL，它的实现类是``org.apache.struts2.dispatcher.ServletRedirectResult``.该类同样有二个**属性**(property):``location``和``parse``。  
+在使用redirect结果类型的场景中，用户要完成一次与服务器之间的交互，浏览器需要完成两次请求，**因此第一次请求中的数据在第二次请求中是不可用的**，这意味在目标资源中是不能访问action实例、action错误以及错误等。如果有某些数据需要在目标资源中访问，  
+  i、一种方式是将数据保存到Session中，  
+  ii、另一种方式是通过请求参数来传递数据。  
+例如：
+{% highlight xml %}
+<result name="success" type="redirect">  
+  <param name="location">foo.jsp</param>
+  <param name="parse">false</param><!--不解析OGNL-->
+</result>
+{% endhighlight %}
+再比如：
+{% highlight xml %}
+<package name="passingRequestParameters"extends="struts-default"
+      namespace="/passingRequestParameters">  
 
-  
+   <!--  
+     The redirect-action url generated will be : 
+/genReport/generateReport.jsp?reportType=pie&width=100&height=100  
+   -->  
 
+  <action name="gatherReportInfo" class="...">  
+    <result name="showReportResult" type="redirect">  
+      <param name="location">generateReport.jsp</param>  
+      <param name="namespace">/genReport</param>  
+      <param name="reportType">pie</param>  
+      <param name="width">100</param> 
+      <param name="height">100</param> 
+     </result>  
+  </action>  
+</package>
+{% endhighlight %}  
 
+**3、redirectAction结果类型（重定向到一个Action）**  
+经常用于防止表单重复提交，比方说在增加完用户之后要显示列表 
+ redirectAction结果类型的实现类是``org.apache.struts2.dispatcher.ServletActionRedirectResult``,该类是``ServletRedirectResult``的子类，因此我们也就可以判断出redirectAction结果类型和redirect结果类型的后台工作原理是一样的，即都是利用``HttpServletResponse``的``sendRedirect``方法将请求重定向到指定的URL。例如： 
+ 
+*1）重定向到不同命名空间下*：
+{% highlight xml linenos%}
+<package name="public"extends="struts-default">  
+  <action name="login"class="...">  
+      <result type="redirectAction">  
+        <param name="actionName">dashboard</param> 
+        <param name="namespace">/secure</param> 
+      </result> 
+   </action> 
+</package> 
+{% endhighlight %} 
+*说明：*这里第4行与下文**2）**中xml代码中第3行对应  
 
+*2）重定向到同一命名空间下的action*：
+{% highlight xml linenos%}
+<package name="secure"extends="struts-default" namespace="/secure">
+    <action name="dashboard" class="...">  
+      <result>dashboard.jsp</result> 
+      <result name="error"type="redirectAction">error</result> 
+    </action> 
+    <action name="error" class="...">  
+      <result>error.jsp</result>
+    </action> 
+</package> 
+{% endhighlight %}
+*说明：*这里第4行与第6行对应  
 
+*3）重定向到Action并且传参*  
+{% highlight xml %}
+<package name="passingRequestParameters"extends="struts-default"namespace="/passingRequestParameters">  
+  <action name="gatherReportInfo" class="...">  
+    <result name="showReportResult" type="redirectAction">  
+      <param name="actionName">generateReport</param> 
+      <param name="namespace">/genReport</param> 
+      <param name="reportType">pie</param> 
+      <param name="width">100</param>
+      <param name="height">100</param>
+      <param name="empty"></param>
+      <param name="supressEmptyParameters">true</param> 
+    </result> 
+  </action> 
+</package>
+{% endhighlight %}  
+*说明：*相当于发送了URL请求：  
+``/genReport/generateReport.action?reportType=pie&width=100&height=100``  
 
+**4、链接类型chain**  
+chain是一种特殊的视图结果，用来将Action执行完之后链接到另一个Action中继续执行，新的Action使用上一个Action的上下文（ActionContext），数据也会被传递，chain结果类型有4个属性，分别是：  
+* ``actionName``:链接到的另一个action的名字  
+* ``namespace`` :用于明确被链接到的action的命名空间，缺省为当前明明空间  
+* ``method``:缺省为``execute()方法``  
+* ``skipActions``:指定一个使用 , 连接的Action的name组成的集合，一般不建议使用这种类型的结果  
+
+例如：  
+
+*链接到同一命名空间下的Action*
+{% highlight xml %}
+<package name="public"extends="struts-default">  
+    <action name="createAccount" class="...">  
+        <result type="chain">login</result>
+   </action> 
+    <action name="login" class="...">  
+        <!--Chain to another namespace --> 
+        <result type="chain">  
+           <param name="actionName">dashboard</param> 
+           <param name="namespace">/secure</param> 
+       </result> 
+   </action> 
+</package>  
+{% endhighlight xml %} 
+{% highlight xml %}
+<package name="secure" extends="struts-default"namespace="/secure">  
+    <actionname="dashboard" class="...">  
+       <result>dashboard.jsp</result> 
+   </action> 
+</package>
+{% endhighlight xml %} 
 
 

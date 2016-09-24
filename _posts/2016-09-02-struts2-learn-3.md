@@ -16,4 +16,7 @@ tags:
 1. 与 Servlet API 解耦的访问方式。  
 - 通过`com.opensymphony.xwork2.ActionContext`
 - 通过 Action 实现如下接口
+  `org.apache.struts2.interceptor.ApplicationAware;`
+  `org.apache.struts2.interceptor.RequestAware;`
+  `org.apache.struts2.interceptor.SessionAware;`
 2. 与 Servlet API 耦合的访问方式

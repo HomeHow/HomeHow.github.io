@@ -243,7 +243,7 @@ chain是一种特殊的视图结果，用来将Action执行完之后链接到另
 {% endhighlight xml %} 
 {% highlight xml %}
 <package name="secure" extends="struts-default"namespace="/secure">  
-    <actionname="dashboard" class="...">  
+    <actio nname="dashboard" class="...">  
        <result>dashboard.jsp</result> 
    </action> 
 </package>

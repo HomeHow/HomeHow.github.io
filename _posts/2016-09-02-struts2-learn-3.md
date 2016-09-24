@@ -155,12 +155,12 @@ test-aware.jsp文件
 ### 2.1 通过ServletActionContext
 **用ServletActionContext得到request再得到sesion和application**
 直接获取 HttpServletRequest 对象：  
-`ServletActionContext.getRequest()`
+`ServletActionContext.getRequest()`  
 直接获取 HttpSession 对象：  
-`ServletActionContext.getRequest().getSession()`
+`ServletActionContext.getRequest().getSession()`  
 直接获取 ServletContext 对象：  
 `ServletActionContext.getServletContext()`  
-以application为例：
+例如：
 {% highlight java %}
 public class TestServletActionContextAction {
     public String execute(){

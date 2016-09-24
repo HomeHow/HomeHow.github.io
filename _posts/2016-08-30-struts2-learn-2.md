@@ -71,7 +71,7 @@ public class HelloAction {
 **result**：结果,表示*action*方法执行后可能返回的一个结果,所以一个*action*节点可能会有多个*result*子节点，多个*result*子节点使用*name*来区分  
 
 ## 2.2 result配置 ##
-结果，表示*action*方法执行后可能返回的一个结果，所以一个*action*节点可能会有多个*result*子节点，多个*result*子节点使用*name*来区分，例如：
+每个 action 方法都将返回一个 String 类型的值, Struts 将根据这个值来决定响应什么结果。每个 result 元素分别对应着 action 方法的一个返回值，所以一个*action*节点可能会有多个*result*子节点，多个*result*子节点使用*name*来区分，例如：
 {% highlight xml %}
 <action name="testResult" class="com.hhl.struts2.action.TestResultAction">
 <result name="success" type="dispatcher">/success.jsp</result>
@@ -88,7 +88,7 @@ public class HelloAction {
 {% endhighlight %}  
 *result*有两个属性，*name*与*type*：  
 **1) name:**标识一个*result*，和*action*配置的*method*方法的可能的一个返回值相对应，默认值为*success*  
-**2) type:**默认为**dispatcher**  
+**2) type:**响应结果的类型，默认为**dispatcher**  
 在``struts2.xxxx-core.jar/struts-default.xml``中定义的类型:  
 
 | Type 类型值        | 作用说明           |
@@ -105,6 +105,7 @@ public class HelloAction {
 | xslt | 处理 XML/XLST 模板 |  
 
 **1、dispatcher结果类型**  
+   ``dispatcher`` 结果类型是最常用的结果类型, 也是 struts 框架默认的结果类型。dispatcher 结果类型将把控制权转发给应用程序里的指定资源。  
    Struts2在后台使用Servlet API 的``RequestDispatcher``来转发请求，因此在用户的整个请求/响应过程中，目标Servlet/JSP接收到的``request``/``response``对象，与最初的Servlet/JSP相同。  
    Dispatcher结果类型的实现是``org.apache.struts2.dispatcher.ServletDispatcherResult``,该类的二个属性(property):``location``和``parse``，这两个属性可以通过struts.xml配置文件中的result元素的param子元素来设置。param元素的name属性指定结果类型实现类的属性名,param元素的内容是属性的值。例如:  
 {% highlight xml %}
@@ -133,7 +134,7 @@ location参数是默认的参数，在所有的Result实现类中，都定义了
 {% endhighlight %}
 
 **2、redirect结果类型（重定向到一个Url，也可以是Action或一个页面）**  
-   ``redirect``结果类型在后台使用``HttpServletResponse``的``sendRedirect``方法将请求重定向到指定的URL，它的实现类是``org.apache.struts2.dispatcher.ServletRedirectResult``.该类同样有二个**属性**(property):``location``和``parse``。  
+   dispatcher 结果类型不能把控制权转发给一个外部资源。 若需要把控制权重定向到一个外部资源, 应该使用 ``redirect`` 结果类型。redirect 结果类型将把响应重定向到另一个资源, 而不是转发给该资源。``redirect``结果类型在后台使用``HttpServletResponse``的``sendRedirect``方法将请求重定向到指定的URL，它的实现类是``org.apache.struts2.dispatcher.ServletRedirectResult``.该类同样有二个**属性**(property):``location``和``parse``。  
 在使用redirect结果类型的场景中，用户要完成一次与服务器之间的交互，浏览器需要完成两次请求，**因此第一次请求中的数据在第二次请求中是不可用的**，这意味在目标资源中是不能访问action实例、action错误以及错误等。如果有某些数据需要在目标资源中访问，  
   i、一种方式是将数据保存到Session中，  
   ii、另一种方式是通过请求参数来传递数据。  
@@ -217,7 +218,7 @@ location参数是默认的参数，在所有的Result实现类中，都定义了
 ``/genReport/generateReport.action?reportType=pie&width=100&height=100``  
 
 **4、链接类型chain**  
-chain是一种特殊的视图结果，用来将Action执行完之后链接到另一个Action中继续执行，新的Action使用上一个Action的上下文（ActionContext），数据也会被传递，chain结果类型有4个属性，分别是：  
+chain 结果类型的基本用途是构成一个 action 链: 前一个 action 把控制权转发给后一个 action, 而前一个 action 的状态在后一个 action 中依然保持。chain是一种特殊的视图结果，用来将Action执行完之后链接到另一个Action中继续执行，新的Action使用上一个Action的上下文（ActionContext），数据也会被传递，chain结果类型有4个属性，分别是：  
 
 - ``actionName``:链接到的另一个action的名字  
 - ``namespace`` :用于明确被链接到的action的命名空间，缺省为当前明明空间  

@@ -1,7 +1,7 @@
 ---
 author: HomeHow
 catalog: true
-date: {  }
+date: 2016-09-02
 header-img: img/post-bg-js-module.jpg
 layout: post
 subtitle: 访问web资源

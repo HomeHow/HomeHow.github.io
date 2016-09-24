@@ -217,11 +217,12 @@ location参数是默认的参数，在所有的Result实现类中，都定义了
 ``/genReport/generateReport.action?reportType=pie&width=100&height=100``  
 
 **4、链接类型chain**  
-chain是一种特殊的视图结果，用来将Action执行完之后链接到另一个Action中继续执行，新的Action使用上一个Action的上下文（ActionContext），数据也会被传递，chain结果类型有4个属性，分别是：
-* ``actionName``:链接到的另一个action的名字  
-* ``namespace`` :用于明确被链接到的action的命名空间，缺省为当前明明空间  
-* ``method``:缺省为``execute()方法``  
-* ``skipActions``:指定一个使用 , 连接的Action的name组成的集合，一般不建议使用这种类型的结果  
+chain是一种特殊的视图结果，用来将Action执行完之后链接到另一个Action中继续执行，新的Action使用上一个Action的上下文（ActionContext），数据也会被传递，chain结果类型有4个属性，分别是：  
+
+- ``actionName``:链接到的另一个action的名字  
+- ``namespace`` :用于明确被链接到的action的命名空间，缺省为当前明明空间  
+- ``method``:缺省为``execute()方法``  
+- ``skipActions``:指定一个使用 , 连接的Action的name组成的集合，一般不建议使用这种类型的结果  
 
 例如：  
 

@@ -119,9 +119,19 @@ ActionContext主要的功能是用来存放数据的，典型的方法如下：
 - `Map<String,Object> getParameters()`：返回HttpServletRequest对象里面存储的，客户端提交的参数  
 - `ValueStack getValueStack()`：获取OGNL的值栈  
 
+## 4.2 ValueStack的使用
+ValueStack主要是通过OGNL表达式来访问，也就是说，在Struts2里面主要是通过标签来访问的。ValueStack有一个特点，如果访问的值栈里有多个对象，*且相同的属性在多个对象中同时出现，则值栈会按照从栈顶到栈底的顺序，寻找第一个匹配的对象*。  
+如果要显示的获取，由于ActionContext中存在着ValueStack，因而可以直接由ActionContext对象的`getValueStack()`方法即可获取。  
+ValueStack主要的功能也是用来存放数据的，典型的方法如下：  
+- `Object findValue(String expr)`：根据表达式在value stack中，按照缺省的访问顺序去获取表达式对应的值
+- `void setValue(String expr, Object value)`：根据表达式，按照缺省的访问顺序，向value stack中设置值
+- `Object peek()`：获取value stack中的顶层对象，不修改value stack对象
+- `Object pop()`：获取value stack中的顶层对象，并把这个对象从value stack中移走
+- `void push(Object o)`：把对象加入到value stack对象中，并设置成为顶层对象
 
-
-例如：
+------------
+# 5 实例
+本例展示了利用OGNL表达式来访问值栈的一个例子：  
 {% highlight java %}
 public class TestActionContextAction {
     public String execute(){

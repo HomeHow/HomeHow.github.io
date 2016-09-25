@@ -99,6 +99,7 @@ ActionContext里面存放有很多的值，典型如：
 
 
 ------------
+
 # 4 值栈的使用
 
 ## 4.1 ActionContext的使用
@@ -130,6 +131,7 @@ ValueStack主要的功能也是用来存放数据的，典型的方法如下：
 - `void push(Object o)`：把对象加入到value stack对象中，并设置成为顶层对象
 
 ------------
+
 # 5 实例
 本例展示了利用OGNL表达式来访问值栈的一个例子：  
 {% highlight java %}

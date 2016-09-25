@@ -132,7 +132,7 @@ ValueStack主要的功能也是用来存放数据的，典型的方法如下：
 
 ------------
 
-# 5 实例
+# 5 示例
 本例展示了利用OGNL表达式来访问值栈的一个例子：  
 {% highlight java %}
 public class Product {

@@ -16,8 +16,9 @@ title: struts2学习笔记（四）
 值栈能够线程安全的为每个请求提供公共的数据存取服务。当有请求到达的时候，Struts2会为每个请求创建一个新的值栈，也就是说，值栈和请求是一一对应的，不同的请求，值栈也不一样，而值栈封装了一次请求所有需要操作的相关的数据。正是因为值栈和请求的对应关系，因而值栈能保证线程安全的为每个请求提供公共的数据存取服务。  
 
 ## 2 ValueStack
-狭义上，值栈通常指的是实现`com.opensymphony.xwork2.util.ValueStack`接口的对象，目前就是`com.opensymphony.xwork2.ognl.OgnlValueStack`对象。  
+狭义上，值栈通常指的是实现`com.opensymphony.xwork2.util.ValueStack`接口的对象，目前就是`com.opensymphony.xwork2.ognl.OgnlValueStack`类型。  
 `OgnlValueStack`对象主要是用来支持OGNL（对象图导航语言）运算的。  
+`com.opensymphony.xwork2.ognl.OgnlValueStack`部分源码中的如下：
 {% highlight java %}
 public class OgnlValueStack implements Serializable, ValueStack, ClearableValueStack, MemberAccessValueStack {
     public static final String THROW_EXCEPTION_ON_FAILURE = OgnlValueStack.class.getName() + ".throwExceptionOnFailure";
@@ -32,6 +33,9 @@ public class OgnlValueStack implements Serializable, ValueStack, ClearableValueS
     transient SecurityMemberAccess securityMemberAccess;
     private boolean devMode;
     private boolean logMissingProperties;
+	
+	......
+	
 }
 {% endhighlight %}
 

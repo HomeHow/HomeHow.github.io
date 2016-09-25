@@ -44,7 +44,48 @@ public class OgnlValueStack implements Serializable, ValueStack, ClearableValueS
 - `transient Map<String, Object> context`：实际上是 `OgnlContext` 类型, 是个 Map, 也是对 ActionContext 的一个引用. 里边保存着各种 Map: `requestMap`, `sessionMap`, `applicationMap`, `parametersMap`, `attr`  
 
 ## 2 ActionContext
+`ActionContext`是Action运行的上下文，每个ActionContext是一个基本的容器，包含着Action运行需要的数据，比如请求参数、会话等。ActionContext是线程安全的，每个线程有一个独立的ActionContext，这样你就不用担心值栈中值的线程安全问题了。ActionContext里面存放有很多的值，典型如：  
 
+- *Request的parameters*：请求中的参数，要注意这里的数据是从请求对象里面拷贝出来的，因此这里数据的变化是不会影响到请求对象里面的参数的值的  
+- *Request的Attribute*：请求中的属性，这里其实就是个Map，存放着请求对象的属性数据，这些数据和请求对象的Attribute是连动的  
+- *Session的Attribute*：会话中的属性，这里其实就是个Map，存放着会话对象的属性数据，这些数据和会话对象的Attribute是连动的  
+- *Application的Attribute*：应用中的属性，这里其实就是个Map，存放着应用对象的属性数据，这些数据和应用对象的Attribute是连动的  
+- *Value stack*：也就是狭义值栈，ActionContext以value stack作为被OGNL访问的根，简单点说，OGNL在没有特别指明的情况下，访问的就是value stack里面的数据  
+- *attr*：在所有的属性范围中获取值，依次搜索page、request、session和application。  
+
+`com.opensymphony.xwork2.ognl.OgnlValueStack`部分源码中的如下：
+{% highlight java %}
+static ThreadLocal<ActionContext> actionContext = new ThreadLocal();
+    public static final String ACTION_NAME = "com.opensymphony.xwork2.ActionContext.name";
+    public static final String VALUE_STACK = "com.opensymphony.xwork2.util.ValueStack.ValueStack";
+    public static final String SESSION = "com.opensymphony.xwork2.ActionContext.session";
+    public static final String APPLICATION = "com.opensymphony.xwork2.ActionContext.application";
+    public static final String PARAMETERS = "com.opensymphony.xwork2.ActionContext.parameters";
+    public static final String LOCALE = "com.opensymphony.xwork2.ActionContext.locale";
+    public static final String TYPE_CONVERTER = "com.opensymphony.xwork2.ActionContext.typeConverter";
+    public static final String ACTION_INVOCATION = "com.opensymphony.xwork2.ActionContext.actionInvocation";
+    public static final String CONVERSION_ERRORS = "com.opensymphony.xwork2.ActionContext.conversionErrors";
+    public static final String CONTAINER = "com.opensymphony.xwork2.ActionContext.container";
+    private Map<String, Object> context;
+
+    public ActionContext(Map<String, Object> context) {
+        this.context = context;
+    }
+	
+	...
+	
+	 public void setValueStack(ValueStack stack) {
+        this.put("com.opensymphony.xwork2.util.ValueStack.ValueStack", stack);
+    }
+
+    public ValueStack getValueStack() {
+        return (ValueStack)this.get("com.opensymphony.xwork2.util.ValueStack.ValueStack");
+    }
+	
+	...
+	
+}
+{% endhighlight %}
 
 获取 `HttpSession` 对应的 Map 对象:  
 {% highlight java %}

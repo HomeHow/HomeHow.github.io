@@ -169,7 +169,7 @@ public class TestActionContextAction {
 	<result name="success">/test-actionContext.jsp</result>
 </action>
 {% endhighlight %}
-test-actionContext.jsp文件  
+test-actionContext.jsp文件，利用OGNL表达式来访问值栈  
 {% highlight html %}
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>

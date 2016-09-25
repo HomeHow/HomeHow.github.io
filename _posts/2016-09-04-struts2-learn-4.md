@@ -135,60 +135,118 @@ ValueStack主要的功能也是用来存放数据的，典型的方法如下：
 # 5 实例
 本例展示了利用OGNL表达式来访问值栈的一个例子：  
 {% highlight java %}
-public class TestActionContextAction {
-    public String execute(){
-        ActionContext actionContext = ActionContext.getContext();
+public class Product {
+    private Integer productId;
+    private String productName;
+    private String productDesc;
 
-        Map<String,Object> applicationMap = actionContext.getApplication();
-        applicationMap.put("applicationKey","applicationValue");
+    private double productPrice;
 
-        Object date = applicationMap.get("date");
-        System.out.println("date:" + date);
+    public Integer getProductId() {
+        return productId;
+    }
 
-        Map<String,Object> sessionMap = actionContext.getSession();
-        sessionMap.put("sessionKey","sessionValue");
-        if (sessionMap instanceof SessionMap){
-            SessionMap sm = (SessionMap) sessionMap;
-            sm.invalidate();
-            System.out.println("Session have invalidated!");
-        }
+    public void setProductId(Integer productId) {
+        this.productId = productId;
+    }
 
-        Map<String,Object> requestMap = (Map<String,Object>) actionContext.get("request");
-        requestMap.put("requestKey","requestValue");
+    public String getProductName() {
+        return productName;
+    }
 
-        Map<String,Object> parameter = actionContext.getParameters();
-        System.out.println(((String[]) parameter.get("name"))[0]);
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
 
+    public String getProductDesc() {
+        return productDesc;
+    }
+
+    public void setProductDesc(String productDesc) {
+        this.productDesc = productDesc;
+    }
+
+    public double getProductPrice() {
+        return productPrice;
+    }
+
+    public void setProductPrice(double productPrice) {
+        this.productPrice = productPrice;
+    }
+
+    @Override
+    public String toString() {
+        return "Product [productId=" + productId + ", productName="
+                + productName + ", productDesc=" + productDesc
+                + ", productPrice=" + productPrice + "]";
+    }
+
+    public String save(){
+        System.out.println("save: " + this);
+        return "details";
+    }
+
+    public String test(){
+        System.out.println("test");
         return "success";
+    }
+
+    public Product() {
+        System.out.println("Product's constructor...");
     }
 }
 {% endhighlight %}
 配置struts2.xml文件
 {% highlight xml %}
-<action name="TestActionContext" class="com.hhl.struts2.action.TestActionContextAction">
-	<result name="success">/test-actionContext.jsp</result>
+<action name="product-save" class="com.hhl.struts2.helloworld.Product" method="save">
+      <result name="details">/WEB-INF/pages/details.jsp</result>
 </action>
 {% endhighlight %}
-test-actionContext.jsp文件，利用OGNL表达式来访问值栈  
+input.jsp文件  
 {% highlight html %}
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Insert title here</title>
+    <title>Title</title>
 </head>
 <body>
-    <h4>Test ActionContext Page</h4>
-
-    application : ${applicationScope.applicationKey }
+<form action="product-save.action" method="post">
+    ProductName:<input type="text" name="productName"/>
     <br><br>
 
-    session : ${sessionScope.sessionKey }
+    ProductDesc:<input type="text" name="productDesc"/>
     <br><br>
 
-    request : ${requestScope.requestKey }
+    ProductPrice:<input type="text" name="productPrice"/>
     <br><br>
+
+    <input type="submit" value="Submit"/>
+    <br><br>
+</form>
 </body>
+</html>
+{% endhighlight %}  
+details.jsp文件，利用OGNL表达式来访问值栈  
+{% highlight html %}
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+    <head>
+        <title>Title</title>
+    </head>
+    <body>
+        ProductId:${productId}
+        <br><br>
+
+        ProductName:${productName}
+        <br><br>
+
+        ProductDesc:${productDesc}
+        <br><br>
+
+        ProductPice:${productPrice}
+        <br><br>
+    </body>
 </html>
 {% endhighlight %}  

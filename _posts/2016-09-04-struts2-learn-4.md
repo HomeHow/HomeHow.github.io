@@ -73,8 +73,8 @@ static ThreadLocal<ActionContext> actionContext = new ThreadLocal();
     }
 	
 	.......
-	
-	public void setValueStack(ValueStack stack) {
+    
+    public void setValueStack(ValueStack stack) {
         this.put("com.opensymphony.xwork2.util.ValueStack.ValueStack", stack);
     }
 

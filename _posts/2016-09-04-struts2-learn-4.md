@@ -40,8 +40,8 @@ public class OgnlValueStack implements Serializable, ValueStack, ClearableValueS
 {% endhighlight %}
 在上述源码中，在 ValueStack 的内部有两个逻辑部分`CompoundRoot root`与`transient Map<String, Object> context`分别对应了对象栈与*context*。  
 
-- *CompoundRoot root*：`CompoundRoot`类型继承自`ArrayList`类型，实际上是一个栈，Struts  把 Action 和相关对象压入 ObjectStack 中  
-- *transient Map<String, Object> context*：实际上是 `OgnlContext` 类型, 是个 Map, 也是对 ActionContext 的一个引用. 里边保存着各种 Map: `requestMap`, `sessionMap`, `applicationMap`, `parametersMap`, `attr`  
+- `CompoundRoot root`：`CompoundRoot`类型继承自`ArrayList`类型，实际上是一个栈，Struts  把 Action 和相关对象压入 ObjectStack 中  
+- `transient Map<String, Object> context`：实际上是 `OgnlContext` 类型, 是个 Map, 也是对 ActionContext 的一个引用. 里边保存着各种 Map: `requestMap`, `sessionMap`, `applicationMap`, `parametersMap`, `attr`  
 
 ## 2 ActionContext
 

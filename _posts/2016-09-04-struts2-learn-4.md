@@ -10,25 +10,32 @@ tags:
 title: struts2学习笔记（四）
 ---
 
-# 访问web资源 #
-在 *Action* 中, 可以通过以下方式访问 web 的 `HttpSession`, `HttpServletRequest`, `HttpServletResponse`  等资源。
+# 1 值栈 #
+值栈是对应每一个请求对象的轻量级的内存数据中心，在这里统一管理着数据，供`Action`、`Result`、`Interceptor`等Struts2的其他部分使用，这样一来，数据被集中管理起来而不会凌乱，大大方便了程序编写。  
+关于值栈的另外一个特性就是：大多数情况下，你根本无需关心值栈，你不用管它在哪里，不用管它里面有什么，你只需要去获取自己需要的数据就可以了。也就是说，你可以隐式的使用值栈。当然，如果编写自定义的Result或拦截器等较复杂功能的时候，还是需要显示访问值栈的。  
+值栈能够线程安全的为每个请求提供公共的数据存取服务。当有请求到达的时候，Struts2会为每个请求创建一个新的值栈，也就是说，值栈和请求是一一对应的，不同的请求，值栈也不一样，而值栈封装了一次请求所有需要操作的相关的数据。正是因为值栈和请求的对应关系，因而值栈能保证线程安全的为每个请求提供公共的数据存取服务。  
 
-1. 与 Servlet API 解耦的访问方式。  
-- 通过`com.opensymphony.xwork2.ActionContext`
-- 通过 Action 实现如下接口  
-  `org.apache.struts2.interceptor.ApplicationAware`
-  `org.apache.struts2.interceptor.RequestAware`
-  `org.apache.struts2.interceptor.SessionAware`
-  `org.apache.struts2.interceptor.ParameterAware`
-2. 与 Servlet API 耦合的访问方式  
-- 通过`org.apache.struts2.ServletActionContext`  
-- 通过实现对应的`xxxAware`接口  
+## 2 ValueStack
+狭义上，值栈通常指的是实现`com.opensymphony.xwork2.util.ValueStack`接口的对象，目前就是`com.opensymphony.xwork2.ognl.OgnlValueStack`对象。  
+`OgnlValueStack`对象主要是用来支持OGNL（对象图导航语言）运算的。  
+{% highlight java %}
+public class OgnlValueStack implements Serializable, ValueStack, ClearableValueStack, MemberAccessValueStack {
+    public static final String THROW_EXCEPTION_ON_FAILURE = OgnlValueStack.class.getName() + ".throwExceptionOnFailure";
+    private static final long serialVersionUID = 370737852934925530L;
+    private static final String MAP_IDENTIFIER_KEY = "com.opensymphony.xwork2.util.OgnlValueStack.MAP_IDENTIFIER_KEY";
+    private static final Logger LOG = LoggerFactory.getLogger(OgnlValueStack.class);
+    CompoundRoot root;
+    transient Map<String, Object> context;
+    Class defaultType;
+    Map<Object, Object> overrides;
+    transient OgnlUtil ognlUtil;
+    transient SecurityMemberAccess securityMemberAccess;
+    private boolean devMode;
+    private boolean logMissingProperties;
+}
+{% endhighlight %}
 
-## 1 与 Servlet API 解耦的访问方式
-为了避免与 *Servlet API* 耦合在一起, 方便 *Action* 做单元测试, *Struts2* 对 `HttpServletRequest`, `HttpSession` 和 `ServletContext` 进行了封装, 构造了 3 个 *Map* 对象来替代这 3 个对象, 在 *Action* 中可以直接使用 `HttpServletRequest`,` HttpServletSession`, `ServletContext` 对应的 *Map* 对象来保存和读取数据。  
 
-### 1.1 使用 ActionContext
-`ActionContext` 是 Action 执行的上下文对象, 在 ActionContext 中保存了 Action 执行所需要的所有对象, 包括 `parameters`, `request`, `session`, `application` 等。  
 获取 `HttpSession` 对应的 Map 对象:  
 {% highlight java %}
 public Map getSession()

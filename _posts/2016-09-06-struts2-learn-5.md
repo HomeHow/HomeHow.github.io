@@ -10,15 +10,42 @@ tags:
 title: struts2学习笔记（五）
 ---
 
-# 1 值栈 #
-值栈是对应每一个请求对象的轻量级的内存数据中心，在这里统一管理着数据，供`Action`、`Result`、`Interceptor`等Struts2的其他部分使用，这样一来，数据被集中管理起来而不会凌乱，大大方便了程序编写。  
-关于值栈的另外一个特性就是：大多数情况下，你根本无需关心值栈，你不用管它在哪里，不用管它里面有什么，你只需要去获取自己需要的数据就可以了。也就是说，你可以隐式的使用值栈。当然，如果编写自定义的Result或拦截器等较复杂功能的时候，还是需要显示访问值栈的。  
-值栈能够线程安全的为每个请求提供公共的数据存取服务。当有请求到达的时候，Struts2会为每个请求创建一个新的值栈，也就是说，值栈和请求是一一对应的，不同的请求，值栈也不一样，而值栈封装了一次请求所有需要操作的相关的数据。正是因为值栈和请求的对应关系，因而值栈能保证线程安全的为每个请求提供公共的数据存取服务。  
+# 1 OGNL #
+OGNL，全称为*Object-Graph Navigation Language*，它是一个功能强大的表达式语言，用来获取和设置Java对象的属性，它旨在提供一个更高的更抽象的层次来对Java对象图进行导航。OGNL表达式的基本单位是"导航链"，一般导航链由如下几个部分组成：  
+- 属性名称（property）  
+- 方法调用（method invoke）  
+- 数组元素  
+所有的OGNL表达式都基于当前对象的上下文来完成求值运算，链的前面部分的结果将作为后面求值的上下文。例如：`names[0].length()`。OGNL是通常要结合Struts 2的标志一起使用。主要是`#`、`%`和`$`这三个符号的使用  
+在 JSP 页面上可以可以利用 OGNL访问到值栈(ValueStack) 里的对象属性.
 
 ------------
 
 
-# 2 ValueStack
+# 2  OGNL 表达式读取值栈中的属性值
+
+##  2.1 获取值栈中 ContextMap 中的数据
+若希望访问值栈中 ContextMap 中的数据（例如request, session, application等）, 需要给 OGNL 表达式加上一个前缀字符 #. 如果没有前缀字符 #, 搜索将在 ObjectStack 里进行。可以使用如下形式：  
+- `#object.propertyName`  
+- `#object['propertyName']`  
+- `#object["propertyName"]`  
+示例，在jsp文件中，利用s:property 标签和 OGNL 读取：  
+session 中的 code 属性:  
+{% highlight html %}
+<s:property value="#session.code"></s:property>
+{% endhightlight%}
+request 中的 customer 属性的 name 属性值:  
+{% highlight html %}
+<s:property value="#request.customer.name"></s:property>
+{% endhightlight%}
+attribute中(按 request, session, application 的顺序)的 lastAccessDate 属性:  
+{% highlight html %}
+<s:property value="#attr.lastAccessDate"></s:property>
+{% endhightlight%}
+
+
+{% highlight html %}
+{% endhightlight%}
+
 狭义上，值栈通常指的是实现`com.opensymphony.xwork2.util.ValueStack`接口的对象，目前就是`com.opensymphony.xwork2.ognl.OgnlValueStack`类型。  
 `OgnlValueStack`对象主要是用来支持OGNL（对象图导航语言）运算的。  
 `com.opensymphony.xwork2.ognl.OgnlValueStack`部分源码中的如下：

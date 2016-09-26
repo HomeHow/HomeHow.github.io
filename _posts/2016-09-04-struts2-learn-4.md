@@ -231,21 +231,21 @@ input.jsp文件
 details.jsp文件，利用OGNL表达式来访问值栈  
 {% highlight html %}
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="s" uri="/struts-tags" %> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
     <head>
         <title>Title</title>
     </head>
     <body>
-        ProductId:${productId}
+
+        ProductName: <s:property value="productName"></s:property>
         <br><br>
 
-        ProductName:${productName}
+        ProductDesc: <s:property value="productDesc"></s:property>
         <br><br>
 
-        ProductDesc:${productDesc}
-        <br><br>
-
-        ProductPice:${productPrice}
+        ProductPice: <s:property value="productPrice"></s:property>
         <br><br>
     </body>
 </html>

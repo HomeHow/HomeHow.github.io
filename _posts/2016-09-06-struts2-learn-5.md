@@ -32,19 +32,19 @@ OGNL，全称为*Object-Graph Navigation Language*，它是一个功能强大的
 session 中的 code 属性:  
 {% highlight html %}
 <s:property value="#session.code"></s:property>
-{% endhightlight%}
+{% endhighlight%}
 request 中的 customer 属性的 name 属性值:  
 {% highlight html %}
 <s:property value="#request.customer.name"></s:property>
-{% endhightlight%}
+{% endhighlight%}
 attribute中(按 request, session, application 的顺序)的 lastAccessDate 属性:  
 {% highlight html %}
 <s:property value="#attr.lastAccessDate"></s:property>
-{% endhightlight%}
+{% endhighlight%}
 
 
 {% highlight html %}
-{% endhightlight%}
+{% endhighlight%}
 
 狭义上，值栈通常指的是实现`com.opensymphony.xwork2.util.ValueStack`接口的对象，目前就是`com.opensymphony.xwork2.ognl.OgnlValueStack`类型。  
 `OgnlValueStack`对象主要是用来支持OGNL（对象图导航语言）运算的。  

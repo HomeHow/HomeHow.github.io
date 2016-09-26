@@ -42,6 +42,36 @@ attribute中(按 request, session, application 的顺序)的 lastAccessDate 属�
 <s:property value="#attr.lastAccessDate"></s:property>
 {% endhighlight%}
 
+##  2.2 获取值栈对象栈中的数据
+若希望访问值栈对象栈中的数据，可以使用如下形式：  
+- `object.propertyName`  
+- `object['propertyName']`  
+- `object["propertyName"]`  
+ObjectStack 里的对象可以通过一个从零开始的下标来引用。ObjectStack 里的栈顶对象可以用 [0] 来引用, 它下面的那个对象可以用 [1] 引用。  
+示例，在jsp文件中，利用s:property 标签和 OGNL 读取：  
+栈顶对象的 message 属性值:  
+{% highlight html %}
+<s:property value="[0].message"></s:property>
+<br><br>
+<s:property value="[0]['message']"></s:property>
+<br><br>
+{% endhighlight%}
+**注：**：若在指定的对象里没有找到指定的属性, 则到指定对象的下一个对象里继续搜索. 即 [n] 的含义是从第 n 个开始搜索, 而不是只搜索第 n 个对象。若从栈顶对象开始搜索, 则可以省略下标部分。也就是说如下上述代码也可以写成：  
+{% highlight html %}
+<s:property value="message"></s:property>
+<br><br>
+{% endhighlight%}
+
+request 中的 customer 属性的 name 属性值:  
+{% highlight html %}
+<s:property value="#request.customer.name"></s:property>
+{% endhighlight%}
+attribute中(按 request, session, application 的顺序)的 lastAccessDate 属性:  
+{% highlight html %}
+<s:property value="#attr.lastAccessDate"></s:property>
+{% endhighlight%}
+
+
 
 {% highlight html %}
 {% endhighlight%}

@@ -117,6 +117,21 @@ bb:<s:property value="#attr.letters['bb']"></s:property>
 可以通过使用 `isEmpty()` 方法或专用关键字 `isEmpty` 来得知给定的 List 是不是空.：`colors.isEmpty` 或 `colors.isEmpty()`  
 还可以使用 OGNL 表达式来创建 List, 创建一个 List 与声明一个 Java 数组是相同的: `{“Red”, “Black”, “Green”}`  
 
+##  2.6 调用字段和方法
+可以利用 OGNL 调用  
+
+- 任何一个 Java 类里的静态字段或方法.  
+- 被压入到 ValueStack 栈的对象上的公共字段和方法.  
+
+默认情况下, Struts2 不允许调用任意 Java 类静态方法, 需要重新设置 struts.ognl.allowStaticMethodAccess 标记变量的值为 true。([Struts2.3.20不支持OGNL静态方法调用allowStaticMethodAccess](http://http://blog.csdn.net/shijiebei2009/article/details/42581815 "Struts2.3.20不支持OGNL静态方法调用allowStaticMethodAccess"))  
+调用静态字段或方法需要使用如下所示的语法:
+@fullyQualifiedClassName@fieldName: @java.util.Calendar@DECEMBER
+@fullyQualifiedClassName@methodName(argumentList): @app4.Util@now()
+调用一个实例字段或方法的语法, 其中 object 是 Object Stack 栈里的某个对象的引用:
+.object.fieldName: [0].datePattern
+.object.methodName(argumentList): [0].repeat(3, “Hello”);
+
+
 {% highlight html %}
 {% endhighlight%}
 

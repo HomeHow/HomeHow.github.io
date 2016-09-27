@@ -47,9 +47,11 @@ attribute中(按 request, session, application 的顺序)的 lastAccessDate 属�
 
 ##  2.2 获取值栈对象栈中的数据
 若希望访问值栈对象栈中的数据，可以使用如下形式：  
+
 - `object.propertyName`  
 - `object['propertyName']`  
 - `object["propertyName"]`  
+
 ObjectStack 里的对象可以通过一个从零开始的下标来引用。ObjectStack 里的栈顶对象可以用 [0] 来引用, 它下面的那个对象可以用 [1] 引用。  
 示例，在jsp文件中，利用s:property 标签和 OGNL 读取：  
 栈顶对象的 message 属性值:  
@@ -73,8 +75,6 @@ attribute中(按 request, session, application 的顺序)的 lastAccessDate 属�
 {% highlight html %}
 <s:property value="#attr.lastAccessDate"></s:property>
 {% endhighlight%}
-
->>>>>>> 6049fee97d2bc3e89ac212a90f4381ca6b363570
 
 
 {% highlight html %}

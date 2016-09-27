@@ -120,16 +120,17 @@ bb:<s:property value="#attr.letters['bb']"></s:property>
 ##  2.6 调用字段和方法
 可以利用 OGNL 调用  
 
-- 任何一个 Java 类里的静态字段或方法.  
+- 任何一个 Java 类里的静态字段.  
 - 被压入到 ValueStack 栈的对象上的公共字段和方法.  
 
-默认情况下, Struts2 不允许调用任意 Java 类静态方法, 需要重新设置 struts.ognl.allowStaticMethodAccess 标记变量的值为 true。([Struts2.3.20不支持OGNL静态方法调用allowStaticMethodAccess](http://blog.csdn.net/shijiebei2009/article/details/42581815 "Struts2.3.20不支持OGNL静态方法调用allowStaticMethodAccess"))  
+默认情况下, Struts2 不允许调用任意 Java 类静态方法, 需要重新设置 *struts.ognl.allowStaticMethodAccess* 标记变量的值为 true。([Struts2.3.20不支持OGNL静态方法调用allowStaticMethodAccess](http://blog.csdn.net/shijiebei2009/article/details/42581815 "Struts2.3.20不支持OGNL静态方法调用allowStaticMethodAccess"))  
 调用静态字段需要使用如下所示的语法:  
-`@fullyQualifiedClassName@fieldName: @java.util.Calendar@DECEMBER`
+`@fullyQualifiedClassName@fieldName: @java.util.Calendar@DECEMBER`  
+`@java.util.Calendar@DECEMBER`  
 调用一个实例字段或方法的语法, 其中 object 是 Object Stack 栈里的某个对象的引用:  
+`.object.fieldName: [0].datePattern`  
+`.object.methodName(argumentList): [0].repeat(3, “Hello”)`  
 
-- `.object.fieldName: [0].datePattern`
-- `.object.methodName(argumentList): [0].repeat(3, “Hello”)`  
 
 
 

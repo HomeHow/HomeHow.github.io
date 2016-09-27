@@ -94,14 +94,17 @@ names2:<s:property value="#attr.names[2]"></s:property>
 示例：
 {% highlight html %}
 <%
-	String[] names = new String[]{"a", "b", "c", "d"};
-	request.setAttribute("names", names);
+	Map<String, String> letters = new HashMap<String, String>();
+	request.setAttribute("letters", letters);
+	letters.put("aa","a");
+	letters.put("bb","b");
+	letters.put("cc","c");
 %>
-length: <s:property value="#attr.names.length"></s:property>
+size: <s:property value="#attr.letters.size"></s:property>
 <br><br>
-names1:<s:property value="#attr.names[1]"></s:property>
+aa:<s:property value="#attr.letters['aa']"></s:property>
 <br><br>
-names2:<s:property value="#attr.names[2]"></s:property>
+bb:<s:property value="#attr.letters['bb']"></s:property>
 <br><br>
 {% endhighlight%}
 

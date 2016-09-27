@@ -24,12 +24,15 @@ OGNL，全称为*Object-Graph Navigation Language*，它是一个功能强大的
 ## 2.1 符号 *#* 的使用
 `#`是OGNL查找符，当目标对象在根部或顶部，也就是根部的第一层树节点时，可直接使用对象名，并且必须只写对象名，不可使用#以作为区分。  
 struts2 OGNL的查找范围为OGNL context和ActionContext，其包含下面是顶节点  
+
 |  名称 |   作用 |    例子 |
 | ------------ | ------------ | ------------ |
 |parameters   | 包含当前HTTP请求参数的Map    | `#parameters.id[0]`作用相当于`request.getParameter("id")`   |
 |  request  |  包含当前HttpServletRequest的属性（attribute)的Map |  `#request.userName`相当于`request.getAttribute("userName")`   |
 | session  | 包含当前HttpSession的属性（attribute）的Map   | `#session.userName`相当于`session.getAttribute("userName")`   |
 |  application  | 包含当前应用的ServletContext的属性（attribute）的Map  |  `#application.userName`相当于`application.getAttribute("userName")`   |  
+
+**注**：attr 用于按*request* > *session* > *application*顺序访问其属性（attribute），`#attr.userName`相当于按顺序在以上三个范围（scope）内读取userName属性，直到找到为止。  
 
 
 

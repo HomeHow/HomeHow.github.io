@@ -67,13 +67,44 @@ ObjectStack 里的对象可以通过一个从零开始的下标来引用。Objec
 <br><br>
 {% endhighlight%}
 
-request 中的 customer 属性的 name 属性值:  
+##  2.3 访问数组类型的属性
+有些属性将返回一个对象数组而不是单个对象, 可以像读取任何其他对象属性那样读取它们。这种数组型属性的各个元素以逗号分隔, 并且不带方括号。可以使用下标访问数组中指定的元素: `colors[0]`。可以通过调用其 length 字段查出给定数组中有多少个元素: `colors.length`。  
+示例：
 {% highlight html %}
-<s:property value="#request.customer.name"></s:property>
+<%
+		String[] names = new String[]{"a", "b", "c", "d"};
+		request.setAttribute("names", names);
+	%>
+	length: <s:property value="#attr.names.length"></s:property>
+	<br><br>
+	names1:<s:property value="#attr.names[1]"></s:property>
+	<br><br>
+	names2:<s:property value="#attr.names[2]"></s:property>
+	<br><br>
 {% endhighlight%}
-attribute中(按 request, session, application 的顺序)的 lastAccessDate 属性:  
+
+##  2.4 访问 Map类型的属性
+读取一个 Map 类型的属性将以如下所示的格式返回它所有的键值对（[留意差别](#lable2)）：  
+<p id="lable1"/>
+`{key-1=value-1, key-2=value-3, ... , key-n=value-n}`  
+若希望检索出某个 Map 的值,` 需要使用如下格式:` map[key]`   
+可以使用 `size` 或 `size()` 得出某个给定的 Map 的键值对的个数.  
+可以使用 `isEmpty` 或 `isEmpty()` 检查某给定 Map 是不是空。   
+可以使用如下语法来创建一个 Map([留意差别](#lable1)):  
+<p id="lable2"/>
+`#{ key-1=value-1, key-2=value-3, ... , key-n=value-n }`
+示例：
 {% highlight html %}
-<s:property value="#attr.lastAccessDate"></s:property>
+<%
+		String[] names = new String[]{"a", "b", "c", "d"};
+		request.setAttribute("names", names);
+	%>
+	length: <s:property value="#attr.names.length"></s:property>
+	<br><br>
+	names1:<s:property value="#attr.names[1]"></s:property>
+	<br><br>
+	names2:<s:property value="#attr.names[2]"></s:property>
+	<br><br>
 {% endhighlight%}
 
 

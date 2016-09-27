@@ -110,6 +110,12 @@ bb:<s:property value="#attr.letters['bb']"></s:property>
 <br><br>
 {% endhighlight%}
 
+##  2.5 访问 List 类型的属性
+有些属性将返回的类型是 *java.util.List*, 可以像读取任何其他属性那样读取它们. 这种 List 的各个元素是字符串, 以逗号分隔, 并且带方括号。  
+可以使用下标访问 List 中指定的元素: `colors[0]`  
+可以通过调用其 size 方法或专用关键字 size 的方法查出给定List 的长度: `colors.size` 或 `colors.size()`  
+可以通过使用 `isEmpty()` 方法或专用关键字 `isEmpty` 来得知给定的 List 是不是空.：`colors.isEmpty` 或 `colors.isEmpty()`  
+还可以使用 OGNL 表达式来创建 List, 创建一个 List 与声明一个 Java 数组是相同的: `{“Red”, “Black”, “Green”}`  
 
 {% highlight html %}
 {% endhighlight%}

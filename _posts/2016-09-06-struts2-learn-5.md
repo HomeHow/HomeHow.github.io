@@ -11,9 +11,11 @@ title: struts2学习笔记（五）
 ---
 # 1 OGNL #
 OGNL，全称为*Object-Graph Navigation Language*，它是一个功能强大的表达式语言，用来获取和设置Java对象的属性，它旨在提供一个更高的更抽象的层次来对Java对象图进行导航。OGNL表达式的基本单位是"导航链"，一般导航链由如下几个部分组成：  
+
 - 属性名称（property）  
 - 方法调用（method invoke）  
 - 数组元素  
+
 所有的OGNL表达式都基于当前对象的上下文来完成求值运算，链的前面部分的结果将作为后面求值的上下文。例如：`names[0].length()`。OGNL是通常要结合Struts 2的标志一起使用。主要是`#`、`%`和`$`这三个符号的使用  
 在 JSP 页面上可以可以利用 OGNL访问到值栈(ValueStack) 里的对象属性.
 
@@ -24,9 +26,11 @@ OGNL，全称为*Object-Graph Navigation Language*，它是一个功能强大的
 
 ##  2.1 获取值栈中 ContextMap 中的数据
 若希望访问值栈中 ContextMap 中的数据（例如request, session, application等）, 需要给 OGNL 表达式加上一个前缀字符 #. 如果没有前缀字符 #, 搜索将在 ObjectStack 里进行。可以使用如下形式：  
+
 - `#object.propertyName`  
 - `#object['propertyName']`  
 - `#object["propertyName"]`  
+
 示例，在jsp文件中，利用s:property 标签和 OGNL 读取：  
 session 中的 code 属性:  
 {% highlight html %}
@@ -40,8 +44,6 @@ attribute中(按 request, session, application 的顺序)的 lastAccessDate 属�
 {% highlight html %}
 <s:property value="#attr.lastAccessDate"></s:property>
 {% endhighlight%}
-<<<<<<< HEAD
-=======
 
 ##  2.2 获取值栈对象栈中的数据
 若希望访问值栈对象栈中的数据，可以使用如下形式：  

@@ -33,9 +33,29 @@ struts2 OGNL的查找范围为OGNL context和ActionContext，其包含下面是�
 |  application  | 包含当前应用的ServletContext的属性（attribute）的Map  |  `#application.userName`相当于`application.getAttribute("userName")`   |  
 
 **注**：attr 用于按*request* > *session* > *application*顺序访问其属性（attribute），`#attr.userName`相当于按顺序在以上三个范围（scope）内读取userName属性，直到找到为止。  
+另外#在集合中可以作为筛选元素的条件，即用于过滤和投影（projecting)集合，如  
+```java
+books.{?#this.price<100}//其中books是Action类的集合元素
+```
+还可以，构造Map，如: `#{'foo1':'bar1', 'foo2':'bar2'}`  
+`#{'foo1':'bar1', 'foo2':'bar2'}`这种方式常用在给*radio*或*select*、*checkbox*等标签赋值上。如果要在页面中取一个map的值可以这样写：  
+```html
+<s:property value="#myMap['foo1']"/>
+<s:property value="#myMap['foo1']"/>
+```
 
+## 2.2 符号 *%* 的使用
+`%`符号的用途是在标签的属性被理解为字符串类型时，告诉执行环境`%{}`里的是OGNL表达式。  
+例如：
+```java
+<s:set name="myMap" value="#{'key1':'value1','key2':'value2'}"/>
+<s:property value="#myMap['key1']"/>
+<s:url value="#myMap['key1']">   //输出：#myMap['key1']
+<s:url value="%{#myMap['key1']}"//输出：value1
+```
 
-
+## 2.3 符号 *$* 的使用
+`$ {}`实际上传统EL的写法。
 
 
 # 3  OGNL 表达式读取值栈中的属性值
